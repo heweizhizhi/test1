@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cart.dao.ProductMapper">
+
+    <select id="selectAll" resultType="Product">
+      select
+        id, name, price, image, `desc`
+      from
+        t_product
+    </select>
+
+    <select id="selectByCondition" parameterType="com.cart.vo.Condition" resultType="Product">
+      select
+        id, name, price, image, `desc`
+      from
+        t_product
+      <where>
+          <if test="minPrice != null" >
+              price >= #{minPrice}
+          </if>
+          <if test="maxPrice != null">
+              and price &lt; #{maxPrice}
+          </if>
+          <if test="productTypeId != -1">
+              and product_type_id = #{productTypeId}
+          </if>
+      </where>
+    </select>
+
+    <select id="selectById" parameterType="int" resultType="Product">
+      select
+        id, name, price, image, `desc`
+      from
+        t_product
+      where id = #{id}
+    </select>
+</mapper>
